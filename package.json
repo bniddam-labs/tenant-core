@@ -46,8 +46,8 @@
     "format": "biome format --write .",
     "check": "biome check . && pnpm run typecheck",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "pnpm run build"
-    "prepare": "pnpm run build",
+    "prepublishOnly": "pnpm run build",
+    "prepare": "pnpm run build"
   },
   "keywords": [
     "nestjs",
