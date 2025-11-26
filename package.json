@@ -1,5 +1,5 @@
 {
-  "name": "@bniddam/tenant-core",
+  "name": "@bniddam-labs/tenant-core",
   "version": "0.1.0",
   "description": "Multi-tenant core entities, services, decorators and guards for SaaS applications",
   "main": "dist/index.js",
@@ -79,8 +79,8 @@
     "typeorm": "^0.3.20"
   },
   "dependencies": {
-    "@bniddam/core": "^0.1.0",
-    "@bniddam/utils": "^0.2.0",
+    "@bniddam-labs/core": "^0.1.0",
+    "@bniddam-labs/utils": "^0.2.0",
     "class-transformer": "^0.5.1",
     "reflect-metadata": "^0.2.2"
   },
