@@ -83,8 +83,8 @@
     "typeorm": "^0.3.20"
   },
   "dependencies": {
-    "@bniddam-labs/core": "^0.1.0",
-    "@bniddam-labs/utils": "^0.2.0",
+    "@bniddam-labs/core": "github:bniddam-labs/core#v0.1.0",
+    "@bniddam-labs/utils": "github:bniddam-labs/utils#v0.2.0",
     "class-transformer": "^0.5.1",
     "reflect-metadata": "^0.2.2"
   },
