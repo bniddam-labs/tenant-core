@@ -61,12 +61,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bniddam/tenant-core.git"
+    "url": "git+https://github.com/bniddam-labs/tenant-core.git"
   },
   "bugs": {
-    "url": "https://github.com/bniddam/tenant-core/issues"
+    "url": "https://github.com/bniddam-labs/tenant-core/issues"
   },
-  "homepage": "https://github.com/bniddam/tenant-core#readme",
+  "homepage": "https://github.com/bniddam-labs/tenant-core#readme",
   "files": [
     "dist",
     "README.md",
