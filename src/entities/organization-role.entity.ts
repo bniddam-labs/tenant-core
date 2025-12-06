@@ -1,5 +1,10 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, type Relation } from 'typeorm';
-import { OrganizationPermission } from '../types/tenant.types';
+import {
+  OrganizationPermission,
+  hasPermission,
+  hasAnyPermission,
+  hasAllPermissions,
+} from '@bniddam-labs/tenant-core-shared';
 import { BaseEntity } from './base.entity';
 import { OrganizationMember } from './organization-member.entity';
 import { Organization } from './organization.entity';
@@ -48,32 +53,29 @@ export class OrganizationRole extends BaseEntity {
   )
   members!: Relation<OrganizationMember>[];
 
-  // Helper methods
+  // Helper methods - delegate to shared business logic
 
   /**
    * Check if role has a specific permission
+   * Uses shared logic from @bniddam-labs/tenant-core-shared
    */
   hasPermission(permission: OrganizationPermission): boolean {
-    return this.permissions.includes(permission) || this.permissions.includes('*');
+    return hasPermission(this.permissions, permission);
   }
 
   /**
    * Check if role has any of the given permissions
+   * Uses shared logic from @bniddam-labs/tenant-core-shared
    */
   hasAnyPermission(permissions: OrganizationPermission[]): boolean {
-    if (this.permissions.includes('*')) {
-      return true;
-    }
-    return permissions.some((p) => this.permissions.includes(p));
+    return hasAnyPermission(this.permissions, permissions);
   }
 
   /**
    * Check if role has all of the given permissions
+   * Uses shared logic from @bniddam-labs/tenant-core-shared
    */
   hasAllPermissions(permissions: OrganizationPermission[]): boolean {
-    if (this.permissions.includes('*')) {
-      return true;
-    }
-    return permissions.every((p) => this.permissions.includes(p));
+    return hasAllPermissions(this.permissions, permissions);
   }
 }
