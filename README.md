@@ -1,10 +1,13 @@
-# @bniddam/tenant-core
+# @bniddam-labs/tenant-core-nestjs
 
 Multi-tenant core infrastructure for NestJS SaaS applications. Provides entities, services, decorators, and guards for organization-based multi-tenancy with role-based access control (RBAC).
 
+> **⚠️ Important**: This package does NOT include a User entity to avoid conflicts with your application's User entity. You define your own User entity - see [Quick Start](#quick-start) below.
+
 ## Features
 
-- **TypeORM Entities**: User, Organization, OrganizationMember, OrganizationRole
+- **TypeORM Entities**: Organization, OrganizationMember, OrganizationRole (no User entity - you define your own!)
+- **User Interface**: `IUser` interface for type safety without entity conflicts
 - **Multi-Tenancy**: Organization-based data isolation
 - **RBAC**: Role-based access control with permissions
 - **Decorators**: @CurrentUser, @CurrentOrganization, @CurrentMembership
@@ -12,6 +15,7 @@ Multi-tenant core infrastructure for NestJS SaaS applications. Provides entities
 - **Services**: MembershipService, OrganizationContextService
 - **TypeScript**: Full type safety with TypeORM and NestJS
 - **Flexible**: Easily extendable for custom business logic
+- **No Conflicts**: Your User entity, your way
 
 ## Installation
 
@@ -44,30 +48,70 @@ pnpm add @bniddam/tenant-core @bniddam/core @bniddam/utils
 npm install @bniddam/tenant-core @bniddam/core @bniddam/utils
 ```
 
-## Usage
+## Quick Start
 
-### Module Setup
+### Step 1: Define Your User Entity
+
+This package does NOT include a User entity. Define your own with whatever fields you need:
+
+```typescript
+// src/users/entities/user.entity.ts
+import { Entity, Column, OneToMany } from 'typeorm';
+import { BaseEntity } from '@bniddam-labs/tenant-core-nestjs/entities';
+import { IUser } from '@bniddam-labs/tenant-core-nestjs/types';
+import { OrganizationMember } from '@bniddam-labs/tenant-core-nestjs/entities';
+
+@Entity('users')
+export class User extends BaseEntity implements IUser {
+  @Column({ unique: true })
+  email: string;
+
+  @Column()
+  firstName: string;
+
+  @Column()
+  lastName: string;
+
+  @Column({ select: false })
+  password: string;
+
+  // Optional: Add relation to memberships
+  @OneToMany(() => OrganizationMember, member => member.userId)
+  organizationMemberships?: OrganizationMember[];
+
+  // Add any other fields you need!
+}
+```
+
+### Step 2: Module Setup
 
 ```typescript
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TenantCoreModule } from '@bniddam/tenant-core';
-import { User, Organization, OrganizationMember, OrganizationRole } from '@bniddam/tenant-core/entities';
+import { TenantCoreModule } from '@bniddam-labs/tenant-core-nestjs';
+import { Organization, OrganizationMember, OrganizationRole } from '@bniddam-labs/tenant-core-nestjs/entities';
+import { User } from './users/entities/user.entity'; // Your User entity
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       // ... database config
-      entities: [User, Organization, OrganizationMember, OrganizationRole],
+      entities: [
+        User, // Your User entity
+        Organization,
+        OrganizationMember,
+        OrganizationRole,
+      ],
     }),
-    TenantCoreModule,
+    TypeOrmModule.forFeature([User]), // Make User available
+    TenantCoreModule, // Provides Organization entities and services
   ],
 })
 export class AppModule {}
 ```
 
-### Using Decorators
+### Step 3: Using Decorators
 
 ```typescript
 import { Controller, Get, Post } from '@nestjs/common';
@@ -75,14 +119,15 @@ import {
   CurrentUser,
   CurrentOrganization,
   CurrentMembership
-} from '@bniddam/tenant-core/decorators';
-import { User, Organization, OrganizationMember } from '@bniddam/tenant-core/entities';
+} from '@bniddam-labs/tenant-core-nestjs/decorators';
+import { Organization, OrganizationMember } from '@bniddam-labs/tenant-core-nestjs/entities';
+import { User } from './users/entities/user.entity'; // Your User entity
 
 @Controller('projects')
 export class ProjectsController {
   @Get()
   async findAll(
-    @CurrentUser() user: User,
+    @CurrentUser() user: User, // Your User type
     @CurrentOrganization() organization: Organization,
     @CurrentMembership() membership: OrganizationMember,
   ) {
@@ -92,7 +137,7 @@ export class ProjectsController {
 
   @Post()
   async create(
-    @CurrentUser() user: User,
+    @CurrentUser() user: User, // Your User type
     @CurrentOrganization() organization: Organization,
   ) {
     return this.projectsService.create({
@@ -179,7 +224,8 @@ export class ProjectService {
 
 ```typescript
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import { User, Organization } from '@bniddam/tenant-core/entities';
+import { Organization } from '@bniddam-labs/tenant-core-nestjs/entities';
+import { User } from '../users/entities/user.entity'; // Your User entity
 
 @Entity('projects')
 export class Project {
@@ -192,6 +238,7 @@ export class Project {
   @Column()
   organizationId: string;
 
+  // You can create relations to your User entity
   @ManyToOne(() => User)
   createdBy: User;
 
@@ -335,6 +382,56 @@ pnpm lint
 # Format
 pnpm format
 ```
+
+## Architecture Decision: No User Entity
+
+This package intentionally **does not include a User entity**. Here's why:
+
+### The Problem
+Most NestJS applications already have a User entity with custom fields (firstName, lastName, avatarUrl, subscriptionPlan, etc.). Including a User entity in this package would:
+- ❌ Conflict with your existing User entity
+- ❌ Force you to extend or merge entities
+- ❌ Limit your flexibility to customize user fields
+- ❌ Create tight coupling between this library and your user management
+
+### The Solution
+We provide:
+- ✅ `IUser` interface - defines the minimal contract (just `id` and `email`)
+- ✅ `userId: string` fields - store references without enforcing relationships
+- ✅ Full flexibility - add whatever fields you need to your User entity
+- ✅ Clean separation - organization logic separate from user logic
+
+### How OrganizationMember Works
+```typescript
+// OrganizationMember stores just the userId
+@Entity('organization_members')
+export class OrganizationMember {
+  @Column({ type: 'uuid' })
+  userId: string; // Reference to your User entity
+
+  @ManyToOne(() => Organization)
+  organization: Organization;
+
+  @ManyToOne(() => OrganizationRole)
+  role: OrganizationRole;
+}
+
+// Your User entity (optional: add the reverse relation)
+@Entity('users')
+export class User implements IUser {
+  id: string;
+  email: string;
+  // ... your custom fields
+
+  @OneToMany(() => OrganizationMember, m => m.userId)
+  memberships?: OrganizationMember[];
+}
+```
+
+This approach gives you complete control over your User entity while providing all the multi-tenant organization features you need!
+
+### Migration from Previous Version
+If you were using an older version that included a User entity, see [MIGRATION-GUIDE.md](./MIGRATION-GUIDE.md) for detailed migration instructions.
 
 ## Requirements
 
