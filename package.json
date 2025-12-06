@@ -1,7 +1,7 @@
 {
-  "name": "@bniddam-labs/tenant-core",
+  "name": "@bniddam-labs/tenant-core-nestjs",
   "version": "0.1.0",
-  "description": "Multi-tenant core entities, services, decorators and guards for SaaS applications",
+  "description": "NestJS + TypeORM multi-tenant entities, services, decorators and guards for SaaS applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -83,6 +83,7 @@
   },
   "dependencies": {
     "@bniddam-labs/core": "github:bniddam-labs/core#v0.1.0",
+    "@bniddam-labs/tenant-core-shared": "link:../tenant-core-shared",
     "@bniddam-labs/utils": "github:bniddam-labs/utils#v0.2.0",
     "class-transformer": "^0.5.1",
     "reflect-metadata": "^0.2.2"

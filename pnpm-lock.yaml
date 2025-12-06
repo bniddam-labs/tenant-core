@@ -11,6 +11,9 @@ importers:
       '@bniddam-labs/core':
         specifier: github:bniddam-labs/core#v0.1.0
         version: git+https://github.com/bniddam-labs/core.git#f3f5e1832db1dd0f8b2f20e92573439b7da5f9a7(@nestjs/common@11.1.9(class-transformer@0.5.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.9(@nestjs/common@11.1.9(class-transformer@0.5.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(reflect-metadata@0.2.2)(rxjs@7.8.2))
+      '@bniddam-labs/tenant-core-shared':
+        specifier: link:../tenant-core-shared
+        version: link:../tenant-core-shared
       '@bniddam-labs/utils':
         specifier: github:bniddam-labs/utils#v0.2.0
         version: git+https://github.com/bniddam-labs/utils.git#1cbe187ae86e2b9257f4799ef8aca4c0052ecd54
