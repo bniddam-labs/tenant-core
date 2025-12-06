@@ -3,3 +3,4 @@
  */
 
 export * from './tenant.types';
+export * from './user.interface';
