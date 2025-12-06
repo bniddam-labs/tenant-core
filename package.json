@@ -1,6 +1,6 @@
 {
   "name": "@bniddam-labs/tenant-core-nestjs",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "NestJS + TypeORM multi-tenant entities, services, decorators and guards for SaaS applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -46,6 +46,7 @@
     "format": "biome format --write .",
     "check": "biome check . && pnpm run typecheck",
     "typecheck": "tsc --noEmit",
+    "postinstall": "pnpm run build",
     "prepublishOnly": "pnpm run build"
   },
   "keywords": [
