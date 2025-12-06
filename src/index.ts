@@ -29,9 +29,9 @@
  * ```
  */
 
-export * from './entities';
-export * from './services';
 export * from './decorators';
+export * from './entities';
 export * from './guards';
-export * from './types';
+export * from './services';
 export * from './tenant-core.module';
+export * from './types';
