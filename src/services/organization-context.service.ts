@@ -49,9 +49,9 @@ export class OrganizationContextService {
     return this.memberRepository.findOne({
       where: {
         organization: { id: organizationId },
-        user: { id: userId },
+        userId,
       },
-      relations: ['role', 'organization', 'user'],
+      relations: ['role', 'organization'],
     });
   }
 
@@ -106,7 +106,7 @@ export class OrganizationContextService {
    */
   async getUserOrganizations(userId: string): Promise<OrganizationMember[]> {
     return this.memberRepository.find({
-      where: { user: { id: userId } },
+      where: { userId },
       relations: ['organization', 'role'],
     });
   }

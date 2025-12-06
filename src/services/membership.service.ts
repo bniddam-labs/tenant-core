@@ -37,8 +37,8 @@ export class MembershipService {
    */
   async getMember(organizationId: string, userId: string): Promise<OrganizationMember | null> {
     return this.memberRepository.findOne({
-      where: { organization: { id: organizationId }, user: { id: userId } },
-      relations: ['role', 'user', 'organization'],
+      where: { organization: { id: organizationId }, userId },
+      relations: ['role', 'organization'],
     });
   }
 
@@ -55,7 +55,7 @@ export class MembershipService {
   ): Promise<OrganizationMember> {
     // Check if user is already a member
     const existing = await this.memberRepository.findOne({
-      where: { organization: { id: organizationId }, user: { id: userId } },
+      where: { organization: { id: organizationId }, userId },
     });
 
     if (existing) {
@@ -70,7 +70,7 @@ export class MembershipService {
 
     const member = this.memberRepository.create({
       organization: { id: organizationId },
-      user: { id: userId },
+      userId,
       role: { id: roleId },
       invitedBy,
       joinedAt: new Date(),
@@ -158,7 +158,7 @@ export class MembershipService {
   async listMembers(organizationId: string): Promise<OrganizationMember[]> {
     return this.memberRepository.find({
       where: { organization: { id: organizationId } },
-      relations: ['user', 'role'],
+      relations: ['role'],
       order: { joinedAt: 'ASC' },
     });
   }
