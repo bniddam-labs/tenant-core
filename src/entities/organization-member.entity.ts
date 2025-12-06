@@ -2,21 +2,34 @@ import { Column, Entity, Index, JoinColumn, ManyToOne, type Relation } from 'typ
 import { BaseEntity } from './base.entity';
 import { OrganizationRole } from './organization-role.entity';
 import { Organization } from './organization.entity';
-import { User } from './user.entity';
 
 /**
  * Organization Member entity
  * Links users to organizations with roles
+ *
+ * NOTE: This entity stores userId as a string reference.
+ * The consuming application should create their own User entity
+ * and establish the relation if needed.
+ *
+ * @example
+ * ```typescript
+ * // In your User entity:
+ * @OneToMany(() => OrganizationMember, member => member.userId)
+ * organizationMemberships: OrganizationMember[];
+ * ```
  */
 @Entity('organization_members')
-@Index(['user', 'organization'], { unique: true })
+@Index(['userId', 'organization'], { unique: true })
 @Index(['organization'])
-@Index(['user'])
+@Index(['userId'])
 @Index(['role'])
 export class OrganizationMember extends BaseEntity {
-  @ManyToOne(() => User, { onDelete: 'CASCADE', eager: false })
-  @JoinColumn({ name: 'userId' })
-  user!: Relation<User>;
+  /**
+   * Foreign key to the user
+   * The consuming application manages the User entity
+   */
+  @Column({ type: 'uuid' })
+  userId!: string;
 
   @ManyToOne(
     () => Organization,
@@ -32,7 +45,7 @@ export class OrganizationMember extends BaseEntity {
   @ManyToOne(() => OrganizationRole, { eager: false })
   @JoinColumn({ name: 'roleId' })
   role!: Relation<OrganizationRole>;
-
+          
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',

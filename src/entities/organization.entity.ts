@@ -1,10 +1,9 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, type Relation } from 'typeorm';
+import { Column, Entity, Index, OneToMany, type Relation } from 'typeorm';
 import type { OrganizationSettings } from '../types/tenant.types';
 import { OrganizationTier } from '../types/tenant.types';
 import { BaseEntity } from './base.entity';
 import { OrganizationMember } from './organization-member.entity';
 import { OrganizationRole } from './organization-role.entity';
-import { User } from './user.entity';
 
 /**
  * Generic Organization entity for multi-tenant SaaS applications
@@ -13,7 +12,7 @@ import { User } from './user.entity';
 @Index(['slug'], { unique: true })
 @Index(['createdAt'])
 @Index(['tier'])
-@Index(['owner'])
+@Index(['ownerId'])
 export class Organization extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   name!: string;
@@ -34,9 +33,12 @@ export class Organization extends BaseEntity {
   })
   tier!: OrganizationTier;
 
-  @ManyToOne(() => User, { onDelete: 'CASCADE', eager: false })
-  @JoinColumn({ name: 'ownerId' })
-  owner!: Relation<User>;
+  /**
+   * Foreign key to the organization owner (User)
+   * The consuming application manages the User entity
+   */
+  @Column({ type: 'uuid' })
+  ownerId!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   billingEmail?: string;
