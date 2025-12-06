@@ -1,6 +1,6 @@
 {
   "name": "@bniddam-labs/tenant-core-nestjs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "NestJS + TypeORM multi-tenant entities, services, decorators and guards for SaaS applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
