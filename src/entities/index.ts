@@ -5,7 +5,7 @@
  * its own User entity with whatever fields you need.
  */
 
-export * from './base.entity';
-export * from './organization.entity';
-export * from './organization-member.entity';
-export * from './organization-role.entity';
+export * from './base.entity.js';
+export * from './organization.entity.js';
+export * from './organization-member.entity.js';
+export * from './organization-role.entity.js';

@@ -5,8 +5,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { SystemRoleName } from '../types/tenant.types';
-import { ORGANIZATION_ROLES_KEY } from '../decorators/organization-roles.decorator';
+import { SystemRoleName } from '../types/tenant.types.js';
+import { ORGANIZATION_ROLES_KEY } from '../decorators/organization-roles.decorator.js';
 
 /**
  * Guard that checks if the user has required organization roles

@@ -1,8 +1,8 @@
 import { Column, Entity, Index, OneToMany, type Relation } from 'typeorm';
-import type { OrganizationSettings } from '../types/tenant.types';
-import { OrganizationTier } from '../types/tenant.types';
-import { BaseEntity } from './base.entity';
-import { OrganizationMember } from './organization-member.entity';
+import type { OrganizationSettings } from '../types/tenant.types.js';
+import { OrganizationTier } from '../types/tenant.types.js';
+import { BaseEntity } from './base.entity.js';
+import { OrganizationMember } from './organization-member.entity.js';
 import { OrganizationRole } from './organization-role.entity';
 
 /**

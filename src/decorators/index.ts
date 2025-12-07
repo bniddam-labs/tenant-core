@@ -2,8 +2,8 @@
  * Tenant decorators
  */
 
-export * from './current-user.decorator';
-export * from './current-organization.decorator';
-export * from './current-membership.decorator';
-export * from './organization-roles.decorator';
-export * from './organization-permissions.decorator';
+export * from './current-user.decorator.js';
+export * from './current-organization.decorator.js';
+export * from './current-membership.decorator.js';
+export * from './organization-roles.decorator.js';
+export * from './organization-permissions.decorator.js';

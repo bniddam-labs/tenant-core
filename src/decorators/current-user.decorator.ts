@@ -1,5 +1,5 @@
 import { createParamDecorator, type ExecutionContext } from '@nestjs/common';
-import type { IUser } from '../types/user.interface';
+import type { IUser } from '../types/user.interface.js';
 
 /**
  * Parameter decorator to inject the current authenticated user

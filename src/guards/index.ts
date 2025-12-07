@@ -2,6 +2,6 @@
  * Tenant guards
  */
 
-export * from './organization-context.guard';
-export * from './organization-role.guard';
-export * from './organization-permission.guard';
+export * from './organization-context.guard.js';
+export * from './organization-role.guard.js';
+export * from './organization-permission.guard.js';

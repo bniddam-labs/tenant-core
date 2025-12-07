@@ -29,9 +29,9 @@
  * ```
  */
 
-export * from './decorators';
-export * from './entities';
-export * from './guards';
-export * from './services';
-export * from './tenant-core.module';
-export * from './types';
+export * from './decorators/index.js';
+export * from './entities/index.js';
+export * from './guards/index.js';
+export * from './services/index.js';
+export * from './tenant-core.module.js';
+export * from './types/index.js';

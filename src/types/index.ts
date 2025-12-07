@@ -2,5 +2,5 @@
  * Tenant types and enums
  */
 
-export * from './tenant.types';
-export * from './user.interface';
+export * from './tenant.types.js';
+export * from './user.interface.js';

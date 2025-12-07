@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { OrganizationPermission } from '../types/tenant.types';
+import { OrganizationPermission } from '../types/tenant.types.js';
 
 /**
  * Metadata key for required organization permissions

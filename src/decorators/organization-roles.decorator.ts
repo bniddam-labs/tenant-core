@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { SystemRoleName } from '../types/tenant.types';
+import { SystemRoleName } from '../types/tenant.types.js';
 
 /**
  * Metadata key for required organization roles

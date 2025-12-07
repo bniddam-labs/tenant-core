@@ -5,8 +5,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { OrganizationPermission } from '../types/tenant.types';
-import { ORGANIZATION_PERMISSIONS_KEY } from '../decorators/organization-permissions.decorator';
+import { OrganizationPermission } from '../types/tenant.types.js';
+import { ORGANIZATION_PERMISSIONS_KEY } from '../decorators/organization-permissions.decorator.js';
 
 /**
  * Guard that checks if the user has required organization permissions

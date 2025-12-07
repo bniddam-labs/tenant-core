@@ -7,10 +7,10 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Organization } from '../entities/organization.entity';
-import { OrganizationMember } from '../entities/organization-member.entity';
-import { OrganizationRole } from '../entities/organization-role.entity';
-import { SystemRoleName } from '../types/tenant.types';
+import { Organization } from '../entities/organization.entity.js';
+import { OrganizationMember } from '../entities/organization-member.entity.js';
+import { OrganizationRole } from '../entities/organization-role.entity.js';
+import { SystemRoleName } from '../types/tenant.types.js';
 
 /**
  * Service for managing organization memberships

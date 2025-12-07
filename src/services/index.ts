@@ -2,5 +2,5 @@
  * Tenant services
  */
 
-export * from './organization-context.service';
-export * from './membership.service';
+export * from './organization-context.service.js';
+export * from './membership.service.js';

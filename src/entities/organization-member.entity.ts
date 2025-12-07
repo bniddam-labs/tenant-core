@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, type Relation } from 'typeorm';
-import { BaseEntity } from './base.entity';
-import { OrganizationRole } from './organization-role.entity';
-import { Organization } from './organization.entity';
+import { BaseEntity } from './base.entity.js';
+import { OrganizationRole } from './organization-role.entity.js';
+import { Organization } from './organization.entity.js';
 
 /**
  * Organization Member entity
